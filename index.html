@@ -25,7 +25,6 @@
             background-color: #000000;
         }
 
-        /* ব্যাকগ্রাউন্ড ভিডিও */
         .bg-video {
             position: absolute;
             top: 0;
@@ -73,7 +72,6 @@
             background: linear-gradient(90deg, #ffffff, #a855f7, #ffffff);
         }
 
-        /* ব্ল্যাক অ্যান্ড হোয়াইট প্রিমিয়াম গোল লোগো (MHX) */
         .logo-container {
             width: 90px;
             height: 90px;
@@ -85,13 +83,6 @@
             justify-content: center;
             align-items: center;
             box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
-            animation: pulse-glow 2s infinite;
-        }
-
-        @keyframes pulse-glow {
-            0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
-            100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
         }
 
         .logo-text {
@@ -164,11 +155,6 @@
             font-size: 12px;
             font-weight: 700;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .copy-btn:active {
-            transform: scale(0.95);
         }
 
         .instruction {
@@ -212,13 +198,7 @@
             font-size: 15px;
             color: #fff;
             outline: none;
-            transition: 0.3s;
             text-transform: uppercase;
-        }
-
-        .form-group input:focus {
-            border-color: #ffffff;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .submit-btn {
@@ -235,9 +215,61 @@
             transition: 0.3s;
         }
 
-        .submit-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+        /* সাকসেস কনফার্মেশন মডাল (পপ-আপ বক্স) */
+        .modal {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 350px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+
+        .modal-content i {
+            font-size: 45px;
+            color: #4ade80;
+            margin-bottom: 15px;
+        }
+
+        .modal-content h3 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .modal-content p {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .confirm-modal-btn {
+            background: #4ade80;
+            color: #000;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
         }
 
         .footer-text {
@@ -249,14 +281,12 @@
 </head>
 <body>
 
-    <!-- ব্যাকগ্রাউন্ড ভিডিও -->
     <video autoplay muted loop playsinline class="bg-video">
         <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-and-numbers-31915-large.mp4" type="video/mp4">
     </video>
     <div class="bg-overlay"></div>
 
     <div class="card">
-        <!-- এমএইচএক্স ব্ল্যাক অ্যান্ড হোয়াইট গোল লোগো -->
         <div class="logo-container">
             <div class="logo-text">MHX</div>
         </div>
@@ -296,11 +326,21 @@
                 </div>
             </div>
 
-            <button type="button" class="submit-btn" onclick="submitTrx()"><i class="fa-solid fa-shield-check"></i> VERIFY & SUBMIT</button>
+            <button type="button" class="submit-btn" onclick="showModal()"><i class="fa-solid fa-shield-check"></i> VERIFY & SUBMIT</button>
         </div>
 
         <div class="footer-text">
             🔒 256-Bit SSL Encrypted & Secured Connection
+        </div>
+    </div>
+
+    <!-- সাকসেস এবং কনফার্মেশন পপ-আপ মডাল -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <i class="fa-solid fa-circle-check"></i>
+            <h3>Payment Successful!</h3>
+            <p>আপনার ট্রানজেকশন সফলভাবে যাচাইয়ের জন্য অ্যাডমিনের কাছে পাঠানো হয়েছে। অনুগ্রহ করে কনফার্ম করুন।</p>
+            <button class="confirm-modal-btn" onclick="finalSubmit()">CONFIRM</button>
         </div>
     </div>
 
@@ -322,19 +362,24 @@
             alert("নম্বর কপি করা হয়েছে: " + num);
         }
 
-        function submitTrx() {
+        let savedTrx = "";
+
+        function showModal() {
             var trx = document.getElementById("trxid").value.trim();
             if(trx === "") {
                 alert("দয়া করে ট্রানজেকশন আইডি (TrxID) দিন!");
                 return;
             }
+            savedTrx = trx;
+            document.getElementById("successModal").style.display = "flex";
+        }
 
-            // টেলিগ্রাম মিনি অ্যাপের মাধ্যমে ডেটা বটে পাঠিয়ে অটোমেটিক টেলিগ্রামে ফিরিয়ে নিয়ে যাবে
+        function finalSubmit() {
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                const dataToSend = JSON.stringify({ trxid: trx, amount: amt || "100" });
+                const dataToSend = JSON.stringify({ trxid: savedTrx, amount: amt || "100" });
                 tg.sendData(dataToSend);
             } else {
-                alert("ট্রানজেকশন সফলভাবে জমা হয়েছে: " + trx);
+                alert("সফলভাবে সাবমিট হয়েছে: " + savedTrx);
                 tg.close();
             }
         }
