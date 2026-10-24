@@ -2,540 +2,290 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>M H X - Secure Payment Portal</title>
-    <!-- Font Awesome Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- Telegram WebApp SDK -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M H X - Payment Gateway</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Hind Siliguri', sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: #090d16;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(233, 30, 99, 0.25) 0%, transparent 60%),
-                radial-gradient(circle at 80% 100%, rgba(139, 92, 246, 0.15) 0%, transparent 50%);
+            background: linear-gradient(135deg, #07090e 0%, #121824 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 16px;
-            color: #f8fafc;
-            overflow-x: hidden;
+            padding: 20px;
         }
 
-        /* Ambient Glow Circles */
-        .ambient-glow {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: rgba(233, 30, 99, 0.15);
-            filter: blur(80px);
-            z-index: 0;
-            pointer-events: none;
-            animation: floatGlow 8s infinite alternate ease-in-out;
-        }
-
-        @keyframes floatGlow {
-            0% { transform: translate(-30px, -30px); }
-            100% { transform: translate(30px, 30px); }
-        }
-
-        /* Glassmorphic Container */
-        .card-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 420px;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        .card {
+            background: rgba(18, 24, 36, 0.95);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            padding: 32px 24px 24px 24px;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.7),
-                0 0 30px rgba(233, 30, 99, 0.2);
-            text-align: center;
-        }
-
-        /* Profile Circular Logo with Glow */
-        .logo-wrapper {
-            position: relative;
-            width: 96px;
-            height: 96px;
-            margin: 0 auto 16px auto;
-        }
-
-        .logo-glow {
-            position: absolute;
-            inset: -4px;
-            background: linear-gradient(135deg, #e91e63, #8b5cf6, #e91e63);
-            border-radius: 50%;
-            animation: spinGlow 4s linear infinite;
-            filter: blur(8px);
-            opacity: 0.8;
-        }
-
-        @keyframes spinGlow {
-            100% { transform: rotate(360deg); }
-        }
-
-        .logo-circle {
-            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
             width: 100%;
-            height: 100%;
-            background: #000000;
+            max-width: 400px;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #e91e63, #ff4081);
+        }
+
+        /* গোল লোগো ডিজাইন */
+        .logo-container {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 15px auto;
             border-radius: 50%;
-            border: 2px solid rgba(233, 30, 99, 0.8);
+            background: #000;
+            border: 2.5px solid #e91e63;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 12px;
             overflow: hidden;
-            box-shadow: inset 0 0 15px rgba(233, 30, 99, 0.4);
+            box-shadow: 0 0 20px rgba(233, 30, 99, 0.4);
         }
 
-        .logo-svg {
+        .logo-container img {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
         }
 
-        /* Titles */
-        .brand-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: 3px;
-            background: linear-gradient(135deg, #ffffff 0%, #f472b6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .brand-logo {
+            font-size: 26px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 2px;
             margin-bottom: 2px;
-            text-shadow: 0 0 20px rgba(233, 30, 99, 0.5);
+            text-transform: uppercase;
         }
 
         .brand-subtitle {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 11px;
-            font-weight: 600;
+            font-size: 12px;
             color: #94a3b8;
-            letter-spacing: 2px;
+            font-weight: 600;
             text-transform: uppercase;
-            margin-bottom: 24px;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
         }
 
-        /* Payment Details Box */
-        .payment-box {
-            background: rgba(30, 41, 59, 0.7);
+        .payment-info-box {
+            background: rgba(30, 41, 59, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 18px;
+            border-radius: 14px;
+            padding: 15px;
             text-align: left;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
         }
 
-        .method-header {
+        .info-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            font-size: 14px;
+            margin-bottom: 10px;
+            font-size: 13px;
             color: #cbd5e1;
         }
 
-        .bkash-badge {
-            background: linear-gradient(135deg, #e91e63, #d81b60);
-            color: #ffffff;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
-        }
-
-        .number-label {
-            font-size: 12px;
-            color: #94a3b8;
-            margin-bottom: 6px;
-        }
-
-        .number-row {
+        .number-box {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px dashed #e91e63;
+            padding: 6px 10px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #090d16;
-            border: 1px dashed rgba(233, 30, 99, 0.5);
-            padding: 10px 14px;
-            border-radius: 12px;
+            margin-top: 4px;
         }
 
-        .number-val {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 17px;
-            font-weight: 800;
-            color: #f472b6;
+        .number-text {
+            color: #e91e63;
+            font-weight: 700;
+            font-size: 15px;
             letter-spacing: 1px;
         }
 
         .copy-btn {
-            background: rgba(233, 30, 99, 0.2);
-            color: #f472b6;
-            border: 1px solid rgba(233, 30, 99, 0.5);
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .copy-btn:hover, .copy-btn:active {
             background: #e91e63;
-            color: #ffffff;
-            transform: scale(0.96);
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        .instruction-box {
-            font-size: 12px;
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .instruction {
+            font-size: 11px;
             color: #94a3b8;
-            margin-top: 12px;
-            line-height: 1.5;
-            background: rgba(15, 23, 42, 0.5);
-            padding: 8px 12px;
-            border-radius: 8px;
-            border-left: 3px solid #e91e63;
+            margin-top: 8px;
+            line-height: 1.4;
         }
 
-        /* Input Form */
         .form-group {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
-            color: #cbd5e1;
-            margin-bottom: 8px;
+            color: #94a3b8;
+            margin-bottom: 6px;
         }
 
-        .input-wrapper {
+        .input-box {
             position: relative;
         }
 
-        .input-wrapper i {
+        .input-box i {
             position: absolute;
             left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #e91e63;
-            font-size: 16px;
+            color: #64748b;
         }
 
-        .form-input {
+        .form-group input {
             width: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
-            padding: 13px 14px 13px 44px;
-            border-radius: 12px;
-            font-family: 'Orbitron', 'Hind Siliguri', sans-serif;
+            padding: 11px 14px 11px 40px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1.5px solid #334155;
+            border-radius: 10px;
             font-size: 14px;
-            color: #ffffff;
+            color: #fff;
             outline: none;
-            transition: all 0.3s ease;
+            transition: 0.3s;
             text-transform: uppercase;
         }
 
-        .form-input:focus {
+        .form-group input:focus {
             border-color: #e91e63;
-            box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.2);
+            box-shadow: 0 0 0 3px rgba(233, 30, 99, 0.2);
         }
 
-        /* Submit Button */
         .submit-btn {
             width: 100%;
-            background: linear-gradient(135deg, #e91e63 0%, #be123c 100%);
-            color: #ffffff;
+            background: linear-gradient(90deg, #e91e63, #ff4081);
+            color: white;
             border: none;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 13px;
+            border-radius: 10px;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(233, 30, 99, 0.4);
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
+            box-shadow: 0 8px 20px rgba(233, 30, 99, 0.3);
+            transition: 0.3s;
         }
 
         .submit-btn:hover {
-            opacity: 0.95;
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(233, 30, 99, 0.6);
+            opacity: 0.9;
+            transform: translateY(-1px);
         }
 
-        .submit-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Success Card State */
-        .success-card {
-            display: none;
-            padding: 20px 10px;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .success-icon {
-            width: 64px;
-            height: 64px;
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            border: 2px solid #10b981;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-            margin: 0 auto 16px auto;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-        }
-
-        .success-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #10b981;
-            margin-bottom: 8px;
-        }
-
-        .success-text {
-            font-size: 13px;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        /* Footer */
-        .footer-note {
-            margin-top: 20px;
+        .footer-text {
             font-size: 11px;
             color: #64748b;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Toast Popup Notification */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #10b981;
-            color: #ffffff;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 600;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            opacity: 0;
-            z-index: 100;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
-    <div class="ambient-glow"></div>
-
-    <div class="card-container">
+    <div class="card">
+        <!-- আপনার দেওয়া গোল লোগো -->
+        <div class="logo-container">
+            <img src="https://i.ibb.co.com/84c7Kz8/IMG-20260226-WA0005.jpg" alt="MHX Free Fire Logo">
+        </div>
         
-        <!-- Profile Logo Section -->
-        <div class="logo-wrapper">
-            <div class="logo-glow"></div>
-            <div class="logo-circle">
-                <!-- M H X Crown Logo Vector SVG -->
-                <svg class="logo-svg" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M150 40 L195 125 L245 75 L225 180 L75 180 L55 75 L105 125 Z" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M110 135 L150 90 L190 135" stroke="#FFFFFF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M150 140 L165 165 L135 165 Z" fill="#FFFFFF"/>
-                    <!-- M H X Text -->
-                    <text x="150" y="225" font-family="'Orbitron', sans-serif" font-size="38" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">M H X</text>
-                    <text x="150" y="252" font-family="'Orbitron', sans-serif" font-size="16" font-weight="700" fill="#E91E63" text-anchor="middle" letter-spacing="3">FREE FIRE</text>
-                </svg>
+        <div class="brand-logo">M H X</div>
+        <div class="brand-subtitle">Secure Payment Gateway</div>
+
+        <div class="payment-info-box">
+            <div class="info-row">
+                <span>পেমেন্ট মেথড:</span>
+                <span style="font-weight: 700; color: #e91e63;"><i class="fa-solid fa-wallet"></i> bKash Personal</span>
             </div>
-        </div>
-
-        <div class="brand-title">M H X</div>
-        <div class="brand-subtitle">Free Fire Payment Gateway</div>
-
-        <!-- Main Form Wrapper -->
-        <div id="formSection">
-            <!-- Payment Info Details -->
-            <div class="payment-box">
-                <div class="method-header">
-                    <span>পেমেন্ট মেথড:</span>
-                    <div class="bkash-badge">
-                        <i class="fa-solid fa-bolt"></i> bKash Personal
-                    </div>
-                </div>
-
-                <div class="number-label">সেন্ড মানি নম্বর:</div>
-                <div class="number-row">
-                    <span class="number-val" id="bKashNum">01635068564</span>
-                    <button class="copy-btn" onclick="copyNumber()">
-                        <i class="fa-regular fa-copy"></i> কপি
-                    </button>
-                </div>
-
-                <div class="instruction-box">
-                    📌 <b>নির্দেশনা:</b> ওপরের নম্বরে সেন্ড মানি করে বিকাশের ট্রানজেকশন আইডি (TrxID) নিচে লিখে ভেরিফাই করুন।
+            
+            <div style="margin-top: 8px;">
+                <span style="font-size: 12px; color: #94a3b8;">সেন্ড মানি নম্বর:</span>
+                <div class="number-box">
+                    <span class="number-text" id="num">01635068564</span>
+                    <button class="copy-btn" onclick="copyNumber()"><i class="fa-regular fa-copy"></i> Copy</button>
                 </div>
             </div>
 
-            <!-- Form -->
-            <form id="paymentForm" onsubmit="handlePaymentSubmit(event)">
-                <div class="form-group">
-                    <label for="trxid">ট্রানজেকশন আইডি (TrxID) দিন:</label>
-                    <div class="input-wrapper">
-                        <i class="fa-solid fa-receipt"></i>
-                        <input type="text" id="trxid" class="form-input" placeholder="যেমন: BKL9X87K..." required autocomplete="off">
-                    </div>
+            <div class="instruction">
+                💡 <b>নোট:</b> ওপরের নম্বরে সেন্ড মানি করার পর প্রাপ্ত TrxID নিচে লিখে সাবমিট করুন।
+            </div>
+        </div>
+
+        <div id="paymentForm">
+            <div class="form-group">
+                <label for="trxid">ট্রানজেকশন আইডি (TrxID):</label>
+                <div class="input-box">
+                    <i class="fa-solid fa-receipt"></i>
+                    <input type="text" id="trxid" placeholder="যেমন: 9H74K3..." required autocomplete="off">
                 </div>
-
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <i class="fa-solid fa-shield-check"></i> VERIFY & SUBMIT
-                </button>
-            </form>
-        </div>
-
-        <!-- Success Confirmation View -->
-        <div id="successSection" class="success-card">
-            <div class="success-icon">
-                <i class="fa-solid fa-check"></i>
             </div>
-            <div class="success-title">পেমেন্ট রিকোয়েস্ট সফল হয়েছে!</div>
-            <div class="success-text">
-                আপনার ট্রানজেকশন আইডিটি বটের অ্যাডমিন প্যানেলে পাঠানো হয়েছে। অতি শীঘ্রই ভেরিফাই করে আপনার একাউন্টে ব্যালেন্স অ্যাড করে দেওয়া হবে।
-            </div>
+
+            <button type="button" class="submit-btn" onclick="submitTrx()"><i class="fa-solid fa-shield-check"></i> SUBMIT TRXID</button>
         </div>
 
-        <!-- Footer -->
-        <div class="footer-note">
-            <i class="fa-solid fa-lock"></i> 256-Bit Encrypted & Secured Gateway
+        <div class="footer-text">
+            🔒 256-Bit SSL Encrypted & Secured Connection
         </div>
-
-    </div>
-
-    <!-- Toast Popup Notification -->
-    <div id="toast" class="toast">
-        <i class="fa-solid fa-circle-check"></i> নম্বর কপি করা হয়েছে!
     </div>
 
     <script>
-        // Copy Phone Number
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
         function copyNumber() {
-            const num = document.getElementById("bKashNum").innerText;
-            
-            // Clipboard fallback
-            const tempInput = document.createElement("input");
-            tempInput.value = num;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand("copy");
-            document.body.removeChild(tempInput);
-
-            showToast("নম্বর কপি করা হয়েছে: " + num);
+            var num = document.getElementById("num").innerText;
+            navigator.clipboard.writeText(num);
+            alert("নম্বর কপি করা হয়েছে: " + num);
         }
 
-        // Show Toast Function
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.innerText = message;
-            toast.classList.add("show");
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2500);
-        }
-
-        // Handle Form Submission
-        function handlePaymentSubmit(event) {
-            event.preventDefault();
-
-            const trxidInput = document.getElementById("trxid").value.trim();
-            if (!trxidInput) {
-                showToast("দয়া করে ট্রানজেকশন আইডি লিখুন!");
+        function submitTrx() {
+            var trx = document.getElementById("trxid").value.trim();
+            if(trx === "") {
+                alert("দয়া করে ট্রানজেকশন আইডি (TrxID) দিন!");
                 return;
             }
 
-            const btn = document.getElementById("submitBtn");
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> প্রসেসিং হচ্ছে...`;
-
-            // Telegram WebApp Integration
-            let telegramUserId = "N/A";
-            let telegramUserName = "Guest";
-
-            if (window.Telegram && window.Telegram.WebApp) {
-                const tg = window.Telegram.WebApp;
-                tg.expand();
-                if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                    telegramUserId = tg.initDataUnsafe.user.id;
-                    telegramUserName = tg.initDataUnsafe.user.first_name || "User";
-                }
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                const dataToSend = JSON.stringify({ trxid: trx });
+                tg.sendData(dataToSend);
+            } else {
+                alert("আপনার ট্রানজেকশন আইডি সফলভাবে জমা হয়েছে: " + trx);
+                tg.close();
             }
-
-            // Simulate quick response & reveal success card
-            setTimeout(() => {
-                document.getElementById("formSection").style.display = "none";
-                document.getElementById("successSection").style.display = "block";
-
-                // Auto Close WebApp after 3.5 seconds if running inside Telegram
-                if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.close) {
-                    setTimeout(() => {
-                        window.Telegram.WebApp.close();
-                    }, 3500);
-                }
-            }, 1000);
         }
-
-        // Initialize Telegram WebApp setup on load
-        window.onload = function() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.ready();
-                window.Telegram.WebApp.expand();
-            }
-        };
     </script>
 </body>
 </html>
