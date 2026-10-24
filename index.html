@@ -215,7 +215,7 @@
             transition: 0.3s;
         }
 
-        /* সাকসেস কনফার্মেশন মডাল (পপ-আপ বক্স) */
+        /* মডাল পপ-আপ */
         .modal {
             display: none;
             position: absolute;
@@ -243,7 +243,7 @@
 
         .modal-content i {
             font-size: 45px;
-            color: #4ade80;
+            color: #facc15;
             margin-bottom: 15px;
         }
 
@@ -334,12 +334,12 @@
         </div>
     </div>
 
-    <!-- সাকসেস এবং কনফার্মেশন পপ-আপ মডাল -->
+    <!-- পেন্ডিং কনফার্মেশন মডাল -->
     <div class="modal" id="successModal">
         <div class="modal-content">
-            <i class="fa-solid fa-circle-check"></i>
-            <h3>Payment Successful!</h3>
-            <p>আপনার ট্রানজেকশন সফলভাবে যাচাইয়ের জন্য অ্যাডমিনের কাছে পাঠানো হয়েছে। অনুগ্রহ করে কনফার্ম করুন।</p>
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <h3>Payment Pending!</h3>
+            <p>আপনার পেমেন্ট পেন্ডিং রয়েছে। ট্রানজেকশন আইডি অ্যাডমিনের কাছে যাচাইয়ের জন্য পাঠানো হচ্ছে। অনুগ্রহ করে কনফার্ম করুন।</p>
             <button class="confirm-modal-btn" onclick="finalSubmit()">CONFIRM</button>
         </div>
     </div>
@@ -378,6 +378,10 @@
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 const dataToSend = JSON.stringify({ trxid: savedTrx, amount: amt || "100" });
                 tg.sendData(dataToSend);
+                // ডেটা পাঠানোর সাথে সাথে মিনি অ্যাপ উইন্ডো বন্ধ করে টেলিগ্রামে ফিরিয়ে আনবে
+                setTimeout(function() {
+                    tg.close();
+                }, 300);
             } else {
                 alert("সফলভাবে সাবমিট হয়েছে: " + savedTrx);
                 tg.close();
