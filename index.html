@@ -25,7 +25,7 @@
             background-color: #05050a;
         }
 
-        /* ব্যাকগ্রাউন্ড ভিডিও বা প্রিমিয়াম অ্যানিমেটেড ইফেক্ট */
+        /* ব্যাকগ্রাউন্ড ভিডিও স্টাইল */
         .bg-video {
             position: absolute;
             top: 0;
@@ -34,7 +34,7 @@
             height: 100%;
             object-fit: cover;
             z-index: 1;
-            opacity: 0.4;
+            opacity: 0.5;
         }
 
         .bg-overlay {
@@ -43,7 +43,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(5, 5, 10, 0.85) 0%, rgba(18, 24, 36, 0.9) 100%);
+            background: linear-gradient(135deg, rgba(5, 5, 10, 0.8) 0%, rgba(18, 24, 36, 0.85) 100%);
             z-index: 2;
         }
 
@@ -73,6 +73,7 @@
             background: linear-gradient(90deg, #e91e63, #ff4081, #9c27b0);
         }
 
+        /* লোগো কনটেইনার */
         .logo-container {
             width: 95px;
             height: 95px;
@@ -249,16 +250,16 @@
 </head>
 <body>
 
-    <!-- ব্যাকগ্রাউন্ড ভিডিও (ব্যাকগ্রাউন্ডে ভিডিও অপশন) -->
-    <video autoplay muted loop class="bg-video">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-and-numbers-31915-large.mp4" type="video/mp4">
+    <!-- ব্যাকগ্রাউন্ড ভিডিও -->
+    <video autoplay muted loop playsinline class="bg-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-digital-background-with-moving-lines-31914-large.mp4" type="video/mp4">
     </video>
     <div class="bg-overlay"></div>
 
     <div class="card">
-        <!-- আপনার লোগো -->
+        <!-- MHX গোল লোগো (সঠিক ওয়ার্কিং লিংক) -->
         <div class="logo-container">
-            <img src="https://i.ibb.co.com/84c7Kz8/IMG-20260226-WA0005.jpg" alt="MHX Logo">
+            <img src="https://i.ibb.co/1G34z5s/logo.png" alt="MHX Logo" onerror="this.src='https://i.ibb.co.com/84c7Kz8/IMG-20260226-WA0005.jpg'">
         </div>
         
         <div class="brand-logo">M H X</div>
@@ -283,7 +284,7 @@
             </div>
 
             <div class="instruction">
-                💡 <b>নোট:</b> সঠিক এমাউন্ট সেন্ড মানি করার পর প্রাপ্ত TrxID নিচে লিখে ভেরিফাই করুন।
+                💡 <b>নোট:</b> সঠিক এমাউন্ট সেন্ড মানি করার পর প্রাপ্ত TrxID নিচে লিখে সাবমিট করুন।
             </div>
         </div>
 
@@ -309,7 +310,6 @@
         tg.ready();
         tg.expand();
 
-        // ইউআরএল থেকে এমাউন্ট রিড করে দেখানো
         const urlParams = new URLSearchParams(window.location.search);
         const amt = urlParams.get('amount');
         if(amt) {
@@ -330,12 +330,14 @@
                 return;
             }
 
+            // টেলিগ্রাম মিনি অ্যাপের ভেতর থেকে সাবমিট করলে সরাসরি বটে ডেটা পাঠিয়ে উইন্ডো ক্লোজ করবে
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 const dataToSend = JSON.stringify({ trxid: trx, amount: amt || "0" });
                 tg.sendData(dataToSend);
             } else {
-                alert("ট্রানজেকশন সফলভাবে জমা হয়েছে: " + trx);
-                tg.close();
+                // ব্রাউজারে ওপেন করলে টেলিগ্রাম বট লিংকে রিডাইরেক্ট করে দেবে
+                alert("ট্রানজেকশন সফলভাবে জমা হয়েছে!");
+                window.location.href = "https://t.me/mhxffv111_bot"; // প্রয়োজনে আপনার বটের ইউজারনেম এখানে দিতে পারেন
             }
         }
     </script>
