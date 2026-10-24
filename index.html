@@ -215,7 +215,6 @@
             transition: 0.3s;
         }
 
-        /* মডাল পপ-আপ */
         .modal {
             display: none;
             position: absolute;
@@ -334,7 +333,6 @@
         </div>
     </div>
 
-    <!-- পেন্ডিং কনফার্মেশন মডাল -->
     <div class="modal" id="successModal">
         <div class="modal-content">
             <i class="fa-solid fa-clock-rotate-left"></i>
@@ -376,12 +374,56 @@
 
         function finalSubmit() {
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                const dataToSend = JSON.stringify({ trxid: savedTrx, amount: amt || "100" });
-                tg.sendData(dataToSend);
-                // ডেটা পাঠানোর সাথে সাথে মিনি অ্যাপ উইন্ডো বন্ধ করে টেলিগ্রামে ফিরিয়ে আনবে
-                setTimeout(function() {
+                const user = tg.initDataUnsafe.user;
+                const userId = user.id;
+                const userName = user.first_name || "User";
+                const amount = amt || "100";
+                
+                // ক্যালকুলেশন বোনাস
+                let bonus = 0;
+                let amtNum = parseFloat(amount);
+                if (amtNum >= 500) bonus = 250;
+                else if (amtNum >= 300) bonus = 100;
+                else if (amtNum >= 100) bonus = 50;
+
+                // সরাসরি টেলিগ্রাম বট এপিআই কল করে অ্যাডমিনের কাছে মেসেজ পাঠানো
+                const botToken = "8802123213:AAExlp0BwqRvattRmBt3t1cjN_ZwxFKRg2o";
+                const adminId = "6261652391";
+                
+                const text = `🔔 *নতুন পেমেন্ট রিকোয়েস্ট (WebApp) এসেছে!*\\n\\n👤 ইউজার: ${userName}\\n🆔 ইউজার ID: \`${userId}\`\\n💰 এমাউন্ট: \`৳${amount}\` (+বোনাস: \`৳${bonus}\`)\\n🧾 TrxID: \`${savedTrx}\`\\n\\nএপ্রুভ করতে নিচের বাটনে চাপ দিন:`;
+                
+                // ইনলাইন বাটন সহ পেমেন্ট এপ্রুভাল রিকোয়েস্ট পাঠানো
+                const inlineKeyboard = {
+                    inline_keyboard: [
+                        [
+                            { text: "✅ APPROVE", callback_data: `app_${userId}_${savedTrx}` },
+                            { text: "❌ CANCEL", callback_data: `canc_${userId}_${savedTrx}` }
+                        ]
+                    ]
+                };
+
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: adminId,
+                        text: text,
+                        parse_mode: 'Markdown',
+                        reply_markup: inlineKeyboard
+                    })
+                }).then(response => {
+                    // ব্যাকএন্ড ডাটাবেসে বা টেবিলে সেভ করার জন্য বট ডাটাও পাঠানো
+                    const dataToSend = JSON.stringify({ trxid: savedTrx, amount: amount });
+                    tg.sendData(dataToSend);
+                    
+                    setTimeout(function() {
+                        tg.close();
+                    }, 300);
+                }).catch(error => {
+                    // কোনো কারণে নেটওয়ার্ক ইস্যু হলেও যেন উইন্ডো বন্ধ হয়ে যায়
                     tg.close();
-                }, 300);
+                });
+
             } else {
                 alert("সফলভাবে সাবমিট হয়েছে: " + savedTrx);
                 tg.close();
