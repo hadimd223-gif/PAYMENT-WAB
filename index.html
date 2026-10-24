@@ -1,0 +1,110 @@
+cat << 'EOF' > index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M H X - Secure Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .header h2 {
+            color: #e91e63;
+            margin-bottom: 5px;
+        }
+        .header p {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .payment-box {
+            background: #fafafa;
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .payment-box p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .verify-btn {
+            background: #e91e63;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .verify-btn:hover {
+            background: #d81b60;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h2>M H X</h2>
+            <p>Secure Payment Gateway</p>
+        </div>
+
+        <div class="payment-box">
+            <p><strong>Method:</strong> bKash Personal</p>
+            <p><strong>Send Money Number:</strong> <span style="color: #e91e63; font-weight: bold;">01635068564</span></p>
+            <p><strong>Instructions:</strong> *২৪৭# ডায়াল করে অথবা বিকাশ অ্যাপ থেকে উপরোক্ত নাম্বারে সেন্ড মানি করুন।</p>
+        </div>
+
+        <form action="/verify" method="POST">
+            <div class="form-group">
+                <label for="trxid">ট্রানজেকশন আইডি (TrxID) দিন:</label>
+                <input type="text" id="trxid" name="trxid" placeholder="যেমন: 9H74K3..." required>
+            </div>
+            
+            <button type="submit" class="verify-btn">VERIFY</button>
+        </form>
+    </div>
+
+</body>
+</html>
+EOF
