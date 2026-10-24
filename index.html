@@ -22,10 +22,10 @@
             padding: 20px;
             position: relative;
             overflow: hidden;
-            background-color: #05050a;
+            background-color: #000000;
         }
 
-        /* ব্যাকগ্রাউন্ড ভিডিও স্টাইল */
+        /* ব্যাকগ্রাউন্ড ভিডিও */
         .bg-video {
             position: absolute;
             top: 0;
@@ -34,7 +34,7 @@
             height: 100%;
             object-fit: cover;
             z-index: 1;
-            opacity: 0.5;
+            opacity: 0.45;
         }
 
         .bg-overlay {
@@ -43,19 +43,19 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(5, 5, 10, 0.8) 0%, rgba(18, 24, 36, 0.85) 100%);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.85) 0%, rgba(15, 23, 42, 0.9) 100%);
             z-index: 2;
         }
 
         .card {
             position: relative;
             z-index: 3;
-            background: rgba(18, 24, 36, 0.85);
+            background: rgba(18, 24, 36, 0.88);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(233, 30, 99, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 24px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(233, 30, 99, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 35px rgba(255, 255, 255, 0.08);
             width: 100%;
             max-width: 420px;
             padding: 30px 25px;
@@ -69,59 +69,59 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, #e91e63, #ff4081, #9c27b0);
+            height: 4px;
+            background: linear-gradient(90deg, #ffffff, #a855f7, #ffffff);
         }
 
-        /* লোগো কনটেইনার */
+        /* ব্ল্যাক অ্যান্ড হোয়াইট প্রিমিয়াম গোল লোগো (MHX) */
         .logo-container {
-            width: 95px;
-            height: 95px;
+            width: 90px;
+            height: 90px;
             margin: 0 auto 15px auto;
             border-radius: 50%;
-            background: #000;
-            border: 2.5px solid #e91e63;
+            background: #050505;
+            border: 2.5px solid #ffffff;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            box-shadow: 0 0 25px rgba(233, 30, 99, 0.6);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.25);
             animation: pulse-glow 2s infinite;
         }
 
         @keyframes pulse-glow {
-            0% { box-shadow: 0 0 15px rgba(233, 30, 99, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(233, 30, 99, 0.8); }
-            100% { box-shadow: 0 0 15px rgba(233, 30, 99, 0.4); }
+            0% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
+            100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.2); }
         }
 
-        .logo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .logo-text {
+            font-size: 24px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.4);
         }
 
         .brand-logo {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 800;
             color: #ffffff;
             letter-spacing: 2px;
             margin-bottom: 2px;
             text-transform: uppercase;
-            text-shadow: 0 2px 10px rgba(233, 30, 99, 0.5);
         }
 
         .brand-subtitle {
-            font-size: 12px;
-            color: #ff4081;
+            font-size: 11px;
+            color: #a1a1aa;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 2.5px;
             margin-bottom: 20px;
         }
 
         .payment-info-box {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(15, 23, 42, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 14px;
             padding: 16px;
@@ -139,8 +139,8 @@
         }
 
         .number-box {
-            background: rgba(5, 5, 10, 0.9);
-            border: 1px dashed #e91e63;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px dashed rgba(255, 255, 255, 0.3);
             padding: 8px 12px;
             border-radius: 8px;
             display: flex;
@@ -150,20 +150,20 @@
         }
 
         .number-text {
-            color: #ff4081;
+            color: #ffffff;
             font-weight: 700;
             font-size: 17px;
             letter-spacing: 1px;
         }
 
         .copy-btn {
-            background: linear-gradient(90deg, #e91e63, #ff4081);
-            color: white;
+            background: #ffffff;
+            color: #000000;
             border: none;
             padding: 6px 12px;
             border-radius: 6px;
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -201,7 +201,7 @@
             left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            color: #ff4081;
+            color: #a1a1aa;
         }
 
         .form-group input {
@@ -218,26 +218,26 @@
         }
 
         .form-group input:focus {
-            border-color: #e91e63;
-            box-shadow: 0 0 10px rgba(233, 30, 99, 0.4);
+            border-color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .submit-btn {
             width: 100%;
-            background: linear-gradient(90deg, #e91e63, #ff4081);
-            color: white;
+            background: linear-gradient(90deg, #ffffff, #e2e8f0);
+            color: #000000;
             border: none;
             padding: 14px;
             border-radius: 10px;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(233, 30, 99, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
             transition: 0.3s;
         }
 
         .submit-btn:hover {
-            opacity: 0.95;
+            opacity: 0.9;
             transform: translateY(-2px);
         }
 
@@ -252,14 +252,14 @@
 
     <!-- ব্যাকগ্রাউন্ড ভিডিও -->
     <video autoplay muted loop playsinline class="bg-video">
-        <source src="https://assets.mixkit.co/videos/preview/mixkit-futuristic-digital-background-with-moving-lines-31914-large.mp4" type="video/mp4">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-screens-and-numbers-31915-large.mp4" type="video/mp4">
     </video>
     <div class="bg-overlay"></div>
 
     <div class="card">
-        <!-- MHX গোল লোগো (সঠিক ওয়ার্কিং লিংক) -->
+        <!-- এমএইচএক্স ব্ল্যাক অ্যান্ড হোয়াইট গোল লোগো -->
         <div class="logo-container">
-            <img src="https://i.ibb.co/1G34z5s/logo.png" alt="MHX Logo" onerror="this.src='https://i.ibb.co.com/84c7Kz8/IMG-20260226-WA0005.jpg'">
+            <div class="logo-text">MHX</div>
         </div>
         
         <div class="brand-logo">M H X</div>
@@ -268,7 +268,7 @@
         <div class="payment-info-box">
             <div class="info-row">
                 <span>মেথড:</span>
-                <span style="font-weight: 700; color: #ff4081;"><i class="fa-solid fa-wallet"></i> bKash Personal</span>
+                <span style="font-weight: 700; color: #ffffff;"><i class="fa-solid fa-wallet"></i> bKash Personal</span>
             </div>
             <div class="info-row" id="amountRow" style="display:none;">
                 <span>নির্বাচিত এমাউন্ট:</span>
@@ -330,14 +330,13 @@
                 return;
             }
 
-            // টেলিগ্রাম মিনি অ্যাপের ভেতর থেকে সাবমিট করলে সরাসরি বটে ডেটা পাঠিয়ে উইন্ডো ক্লোজ করবে
+            // টেলিগ্রাম মিনি অ্যাপের মাধ্যমে ডেটা বটে পাঠিয়ে অটোমেটিক টেলিগ্রামে ফিরিয়ে নিয়ে যাবে
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                const dataToSend = JSON.stringify({ trxid: trx, amount: amt || "0" });
+                const dataToSend = JSON.stringify({ trxid: trx, amount: amt || "100" });
                 tg.sendData(dataToSend);
             } else {
-                // ব্রাউজারে ওপেন করলে টেলিগ্রাম বট লিংকে রিডাইরেক্ট করে দেবে
-                alert("ট্রানজেকশন সফলভাবে জমা হয়েছে!");
-                window.location.href = "https://t.me/mhxffv111_bot"; // প্রয়োজনে আপনার বটের ইউজারনেম এখানে দিতে পারেন
+                alert("ট্রানজেকশন সফলভাবে জমা হয়েছে: " + trx);
+                tg.close();
             }
         }
     </script>
