@@ -80,10 +80,6 @@
             color: #334155;
         }
 
-        .info-row:last-child {
-            margin-bottom: 0;
-        }
-
         .number-box {
             background: #fff;
             border: 1px dashed #e91e63;
@@ -110,11 +106,6 @@
             border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .copy-btn:active {
-            transform: scale(0.95);
         }
 
         .instruction {
@@ -156,13 +147,7 @@
             border-radius: 10px;
             font-size: 15px;
             outline: none;
-            transition: 0.3s;
             text-transform: uppercase;
-        }
-
-        .form-group input:focus {
-            border-color: #e91e63;
-            box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.1);
         }
 
         .submit-btn {
@@ -176,18 +161,17 @@
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 10px 20px rgba(233, 30, 99, 0.3);
-            transition: 0.3s;
         }
 
-        .submit-btn:hover {
-            opacity: 0.95;
-            transform: translateY(-1px);
-        }
-
-        .footer-text {
-            font-size: 11px;
-            color: #94a3b8;
-            margin-top: 20px;
+        .success-msg {
+            display: none;
+            background: #d1fae5;
+            color: #065f46;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -212,24 +196,29 @@
             </div>
 
             <div class="instruction">
-                💡 <b>নোট:</b> ওপরের নম্বরে সেন্ড মানি (Send Money) করার পর প্রাপ্ত TrxID নিচে বসিয়ে ভেরিফাই করুন।
+                💡 <b>নোট:</b> ওপরের নম্বরে সেন্ড মানি করে TrxID নিচে লিখে সাবমিট করুন।
             </div>
         </div>
 
-        <form action="/verify" method="POST">
+        <div id="paymentForm">
             <div class="form-group">
                 <label for="trxid">ট্রানজেকশন আইডি (TrxID) দিন:</label>
                 <div class="input-box">
                     <i class="fa-solid fa-receipt"></i>
-                    <input type="text" id="trxid" name="trxid" placeholder="যেমন: BKL9X87K..." required autocomplete="off">
+                    <input type="text" id="trxid" placeholder="যেমন: BKL9X87K..." required autocomplete="off">
                 </div>
             </div>
 
-            <button type="submit" class="submit-btn"><i class="fa-solid fa-shield-check"></i> VERIFY PAYMENT</button>
-        </form>
+            <button type="button" class="submit-btn" onclick="submitTrx()"><i class="fa-solid fa-shield-check"></i> SUBMIT TRXID</button>
+        </div>
 
-        <div class="footer-text">
-            🔒 256-Bit SSL Encrypted & Secured Connection
+        <div id="successBox" class="success-msg">
+            <i class="fa-solid fa-circle-check" style="font-size: 20px; margin-bottom: 5px;"></i><br>
+            আপনার ট্রানজেকশন আইডি সফলভাবে জমা হয়েছে! দয়া করে টেলিগ্রাম বটে ফিরে যান।
+        </div>
+
+        <div class="footer-text" style="font-size: 11px; color: #94a3b8; margin-top: 20px;">
+            🔒 256-Bit SSL Secured Connection
         </div>
     </div>
 
@@ -238,6 +227,16 @@
             var num = document.getElementById("num").innerText;
             navigator.clipboard.writeText(num);
             alert("নম্বর কপি করা হয়েছে: " + num);
+        }
+
+        function submitTrx() {
+            var trx = document.getElementById("trxid").value;
+            if(trx.trim() === "") {
+                alert("দয়া করে ট্রানজেকশন আইডি (TrxID) লিখুন!");
+                return;
+            }
+            document.getElementById("paymentForm").style.display = "none";
+            document.getElementById("successBox").style.display = "block";
         }
     </script>
 </body>
